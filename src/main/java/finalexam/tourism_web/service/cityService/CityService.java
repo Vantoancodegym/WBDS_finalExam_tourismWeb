@@ -30,4 +30,10 @@ public class CityService implements ICityService {
     public void delete(Long id) {
         cityRepo.deleteById(id);
     }
+
+    @Override
+    public List<City> findLikeName(String name) {
+        name="%"+name+"%";
+        return cityRepo.findLikeName(name);
+    }
 }

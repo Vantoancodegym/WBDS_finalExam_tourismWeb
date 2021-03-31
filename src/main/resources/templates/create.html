@@ -24,7 +24,7 @@
     <div class="row main">
         <div class="main-login main-center">
             <h5>Thêm/ sửa thành phố</h5>
-            <form class="" method="post" th:object="${city}">
+            <form name="myForm" method="post" th:object="${city}" onsubmit="return validateForm()">
 
                 <div class="form-group">
                     <label for="name" class="cols-sm-2 control-label">Tên Thành Phố</label>
@@ -102,6 +102,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
+<script>
+    function validateForm(){
+        let area = document.forms["myForm"]["area"].value;
+        let gdp = document.forms["myForm"]["gdp"].value;
+        let population = document.forms["myForm"]["population"].value;
+        if (area<1||gdp<1||population<1){
+            alert("Diện tích, GDP, population phải là số dương")
+            return false;
+        }
+
+    }
+</script>
 
 </body>
 </html>

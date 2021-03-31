@@ -49,8 +49,9 @@ public class tourismController {
     @GetMapping("detail/{id}")
     public ModelAndView showDetail(@PathVariable Long id){
         City city=cityService.findById(id);
-
+        return new ModelAndView("detail","city",city);
     }
+
 
 
 }

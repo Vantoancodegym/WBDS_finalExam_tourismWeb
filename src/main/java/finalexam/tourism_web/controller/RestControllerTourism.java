@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -24,5 +25,9 @@ public class RestControllerTourism {
     public ResponseEntity<List<City>> getListCity(){
         List<City> cites = cityService.findAll();
         return new ResponseEntity<>(cites, HttpStatus.OK);
+    }
+    @GetMapping("tourism/search/{name}")
+    public ResponseEntity<List<City>> showDetail(@PathVariable String name){
+        return new ResponseEntity<>(cityService.findLikeName(name),HttpStatus.OK);
     }
 }

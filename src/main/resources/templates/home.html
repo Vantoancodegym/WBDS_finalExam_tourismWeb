@@ -12,16 +12,15 @@
 <body>
 <div class="container">
     <div class="row col-md-6 col-md-offset-2 custyle">
+        <input id="search" oninput="showResult()"> SEARCH
+        <a href="/tourism/create" class="btn btn-primary btn-xs pull-right"><b>+</b>Thêm mới thành phố</a>
         <table class="table table-striped custab" id="cityList" >
-            <thead>
-            <a href="/tourism/create" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>
             <tr>
                 <th>Stt</th>
                 <th>Tên</th>
                 <th>Quốc gia</th>
                 <th class="text-center">Action</th>
             </tr>
-            </thead>
             <th:block th:each="c, state: ${cites}">
             <tr>
                 <td th:text="${state.index} +1"></td>
@@ -52,15 +51,15 @@ function deleteCity(e){
                  console.log('Error!', err)
              },
              success: function (data) {
-                 fillData();
+                 fillData("http://localhost:8080/tourism/list");
              }
          })
      }
     }
-function fillData(){
+function fillData(url){
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/tourism/list",
+        url: url,
 
         headers: {
             'Accept': 'application/json',
@@ -70,15 +69,13 @@ function fillData(){
             console.log('Error!', err)
         },
         success: function (data) {
-            let content=` <thead>
-            <a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>
+            let content=`
             <tr>
                 <th>Stt</th>
                 <th>Tên</th>
                 <th>Quốc gia</th>
                 <th class="text-center">Action</th>
-            </tr>
-            </thead>`
+            </tr>`
             for (let i = 0; i < data.length; i++) {
                 content+=`<tr>
                 <td>${i+1}</td>
@@ -93,6 +90,17 @@ function fillData(){
             document.getElementById("cityList").innerHTML=content;
         }
     })
+}
+function showResult(){
+    let name=$('#search').val();
+    let url;
+    if (name==""){
+        url="http://localhost:8080/tourism/list"
+
+    }else {
+        url = "http://localhost:8080/tourism/search/" + name;
+    }
+    fillData(url)
 }
 </script>
 </body>
