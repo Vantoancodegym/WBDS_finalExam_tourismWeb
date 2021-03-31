@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link src="/home.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+        <table class="table table-striped custab" id="cityList" >
+            <thead>
+            <a href="/tourism/create" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>
+            <tr>
+                <th>Stt</th>
+                <th>Tên</th>
+                <th>Quốc gia</th>
+                <th class="text-center">Action</th>
+            </tr>
+            </thead>
+            <th:block th:each="c, state: ${cites}">
+            <tr>
+                <td th:text="${state.index} +1"></td>
+                <td th:text="${c.name}"></td>
+                <td th:text="${c.nation.name}"></td>
+                <td class="text-center"><a class='btn btn-info btn-xs' th:href="@{'tourism/detail/'+${c.id}}"><span class="glyphicon glyphicon-edit"></span> Detail</a>
+                    <a class='btn btn-info btn-xs' th:href="@{'tourism/edit/'+${c.id}}"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                    <button th:value="${c.id}" onclick="deleteCity($(this))" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</button></td>
+            </tr>
+            </th:block>
+
+        </table>
+    </div>
+</div>
+<script>
+function deleteCity(e){
+     let id=e.val();
+     if (confirm("Bạn chắc chắn xóa?")){
+         $.ajax({
+             type: "GET",
+             url: "http://localhost:8080/tourism/delete/"+id,
+
+             headers: {
+                 'Accept': 'application/json',
+                 'Content-Type': 'application/json'
+             },
+             error: function (err) {
+                 console.log('Error!', err)
+             },
+             success: function (data) {
+                 fillData();
+             }
+         })
+     }
+    }
+function fillData(){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/tourism/list",
+
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        error: function (err) {
+            console.log('Error!', err)
+        },
+        success: function (data) {
+            let content=` <thead>
+            <a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new categories</a>
+            <tr>
+                <th>Stt</th>
+                <th>Tên</th>
+                <th>Quốc gia</th>
+                <th class="text-center">Action</th>
+            </tr>
+            </thead>`
+            for (let i = 0; i < data.length; i++) {
+                content+=`<tr>
+                <td>${i+1}</td>
+                <td>${data[i].name}</td>
+                <td>${data[i].nation.name}</td>
+                <td class="text-center">
+                <a class='btn btn-info btn-xs' href="tourism/detail/${data[i].id}"><span class="glyphicon glyphicon-edit"></span> Detail</a>
+                <a class='btn btn-info btn-xs' href="tourism/edit/${data[i].id}"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <button value="${data[i].id}" onclick="deleteCity($(this))" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</button></td>
+            </tr>`
+            }
+            document.getElementById("cityList").innerHTML=content;
+        }
+    })
+}
+</script>
+</body>
+</html>

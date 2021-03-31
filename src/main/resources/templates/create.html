@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create and edit city</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- Website CSS style -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/create.css" rel="stylesheet">
+
+    <!-- Website Font style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div class="container">
+    <div class="row main">
+        <div class="main-login main-center">
+            <h5>Thêm/ sửa thành phố</h5>
+            <form class="" method="post" th:object="${city}">
+
+                <div class="form-group">
+                    <label for="name" class="cols-sm-2 control-label">Tên Thành Phố</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"></span>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  class="cols-sm-2 control-label">Quốc Gia</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group" style="color: black">
+                            <span class="input-group-addon"></span>
+                            <select th:field="*{nation}">
+                                <th:block th:each="n: ${nations}">
+                                    <option th:value="${n.id}" th:text="${n.name}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="area" class="cols-sm-2 control-label">Diện Tích</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"></span>
+                            <input type="text" class="form-control" th:field="*{area}" id="area"  />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="population" class="cols-sm-2 control-label">Dân Số</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"></span>
+                            <input type="text" class="form-control" th:field="*{population}" id="population"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="gdp" class="cols-sm-2 control-label">GDP</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"></span>
+                            <input type="text" class="form-control"  th:field="*{gdp}" id="gdp"  />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="cols-sm-2 control-label">Giới thiệu</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"></span>
+                            <textarea type="text" class="form-control" th:field="*{description}" id="description"   rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group ">
+                    <button target="_blank" type="submit" id="button" class="btn btn-primary btn-lg btn-block login-button">Submit</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>
